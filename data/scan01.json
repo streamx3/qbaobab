@@ -1,0 +1,78 @@
+{
+    "name": "/",
+    "items":[
+        {
+            "name": "folder01",
+            "items":[
+                {
+                    "name": "file03",
+                    "size": 4096
+                },
+                {
+                    "name": "file04",
+                    "size": 1024
+                },
+                {
+                    "name": "folder05",
+                    "items":[
+                        {
+                            "name": "file11",
+                            "size": 8192
+                        },
+                        {
+                            "name": "file12",
+                            "size": 4096
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "folder02",
+            "items":[
+                {
+                    "name": "file05",
+                    "size": 4096
+                },
+                {
+                    "name": "file06",
+                    "size": 2048
+                },
+                {
+                    "name": "file07",
+                    "size": 1024
+                }
+            ]
+        },
+        {
+            "name": "folder03",
+            "items":[
+                {
+                    "name": "file08",
+                    "size": 1024
+                }
+            ]
+        },
+        {
+            "name": "folder04",
+            "items":[
+                {
+                    "name": "file09",
+                    "size": 2048
+                },
+                {
+                    "name": "file10",
+                    "size": 1024
+                }
+            ]
+        },
+        {
+            "name": "file01",
+            "size": 1024
+        },
+        {
+            "name": "file02",
+            "size": 2048
+        }
+    ]
+}
