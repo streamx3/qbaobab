@@ -55,10 +55,15 @@ static void test_roundtrip(const QString& tmp_path) {
 }
 
 static void test_load_bad_magic(const QString& tmp_path) {
+    bool ret = false;
     // Write garbage.
     {
         QFile f(tmp_path);
-        f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        ret = f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if (!ret) {
+            std::cout << "Failed to open file to load bad magic" << std::endl;
+            return;
+        }
         f.write("NOTCFST!!", 9);
     }
     auto r = FSTreeSerializer::load(tmp_path);
@@ -69,10 +74,15 @@ static void test_load_bad_magic(const QString& tmp_path) {
 static void test_load_truncated(const QString& tmp_path) {
     CompactFSTree t = make_tree();
     FSTreeSerializer::save(t, tmp_path);
+    bool ret = false;
     // Truncate the file in the middle of nodes.
     {
         QFile f(tmp_path);
-        f.open(QIODevice::WriteOnly | QIODevice::Append);
+        ret = f.open(QIODevice::WriteOnly | QIODevice::Append);
+        if (!ret) {
+            std::cout << "Failed to open file to load truncated" << std::endl;
+            return;
+        }
         // already saved; resize to header only
         f.resize(64 + 10); // 10 bytes into nodes — too short
     }
@@ -83,9 +93,14 @@ static void test_load_truncated(const QString& tmp_path) {
 
 int main(int argc, char* argv[]) {
     QCoreApplication app(argc, argv);
+    bool retval = false;
 
     QTemporaryFile tmp;
-    tmp.open();
+    retval = tmp.open();
+    if (!retval) {
+        std::cout << "Failed to open TMP file" << std::endl;
+        return -1;
+    }
     tmp.close();
     QString path = tmp.fileName();
 
