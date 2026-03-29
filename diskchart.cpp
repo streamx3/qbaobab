@@ -1,5 +1,6 @@
 #include "diskchart.h"
 #include "diskdata.h"
+#include "utils.h"
 
 #include <QPieSeries>
 #include <QPieSlice>
@@ -43,7 +44,7 @@ void DiskChart::setData(const DiskItem &root)
         return;
 
     const QColor bgColor = palette().color(QPalette::Window);
-    const QPen slicePen(bgColor, 3);
+    const QPen slicePen(bgColor, 1);
 
     // Determine the maximum depth so we can size rings evenly.
     // We'll discover it as we go, using a two-pass approach:
@@ -87,21 +88,10 @@ void DiskChart::setData(const DiskItem &root)
     const qreal centerSize = 0.15;  // reserved for the total-size center circle
     const qreal ringWidth = (maxPieSize - centerSize) / numRings;
 
-    // Helper: format a size value into a human-readable string
-    auto formatSize = [](qint64 bytes) -> QString {
-        if (bytes >= 1024LL * 1024 * 1024)
-            return QString("%1 GB").arg(qreal(bytes) / (1024.0 * 1024.0 * 1024.0), 0, 'f', 1);
-        if (bytes >= 1024 * 1024)
-            return QString("%1 MB").arg(qreal(bytes) / (1024.0 * 1024.0), 0, 'f', 1);
-        if (bytes >= 1024)
-            return QString("%1 KB").arg(qreal(bytes) / 1024.0, 0, 'f', 1);
-        return QString("%1 B").arg(bytes);
-    };
-
     // Helper: connect hover and click signals on a series
-    auto connectSignals = [this, rootTotal, formatSize](QPieSeries *seg) {
+    auto connectSignals = [this, rootTotal](QPieSeries *seg) {
         connect(seg, &QPieSeries::hovered, this,
-                [rootTotal, formatSize](QPieSlice *slice, bool state) {
+                [rootTotal](QPieSlice *slice, bool state) {
             if (state) {
                 // Darken the slice
                 if (!slice->property("originalColor").isValid())
@@ -280,7 +270,7 @@ void DiskChart::updateCenterLabel()
 
     // The pie series use the shorter dimension to size themselves
     qreal side = qMin(area.width(), area.height());
-    qreal radius = (side / 2.0) * m_centerSize - 1.5;
+    qreal radius = (side / 2.0) * m_centerSize - 1;
     QPointF center = area.center();
 
     m_centerCircle->setRect(center.x() - radius, center.y() - radius,

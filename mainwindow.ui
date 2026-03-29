@@ -16,7 +16,15 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="centralLayout">
     <item>
-     <widget class="QChartView" name="chartView"/>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="chartPage">
+       <layout class="QVBoxLayout" name="chartPageLayout">
+        <item>
+         <widget class="QChartView" name="chartView"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>

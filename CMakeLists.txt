@@ -23,6 +23,13 @@ set(PROJECT_SOURCES
         diskdata.h
         diskchart.cpp
         diskchart.h
+        utils.h
+        drivelistmodel.cpp
+        drivelistmodel.h
+        driveitemdelegate.cpp
+        driveitemdelegate.h
+        driveselectorwidget.cpp
+        driveselectorwidget.h
         ${TS_FILES}
 )
 
